@@ -36,7 +36,7 @@ export default function ContactPage() {
 
   return (
     <MotionPage>
-      <div className="h-full lg:h-[calc(100vh-6rem)] flex flex-col gap-4 lg:flex-row px-4 sm:px-8 md:px-12 lg:px-20 xl:px-48">
+      <div className="h-full min-h-[calc(100vh-6rem)] lg:h-[calc(100vh-6rem)] flex flex-col gap-4 lg:flex-row px-4 sm:px-8 md:px-12 lg:px-20 xl:px-48">
         {/* TEXT CONTAINER */}
         <div className="h-1/3 lg:h-[calc(100vh-6rem)] lg:w-1/2 flex items-center justify-center text-6xl">
           <div>
