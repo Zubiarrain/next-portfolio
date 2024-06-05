@@ -57,9 +57,8 @@ export const Projects = ({x}: ProjectsT) => {
                   </h1>
                   <div className="flex flex-col gap-2 items-center justify-center text-center">
                     <div className="relative 
-                                    w-56 h-56
-                                    lg:w-80 lg:h-80
-                                    xl:w-[600px] xl:h-[300px]">
+                                    w-80 h-80
+                                    lg:w-[600px] xl:h-[300px]">
                       <Image src={item.img} alt="" fill className="rounded-md object-contain"/>
                     </div>
                     <p className="w-80 lg:w-[600px] lg:text-xl">
