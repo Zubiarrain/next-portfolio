@@ -33,6 +33,19 @@ const jobs = [
         period:"03/2021 - 09/2022",
         skills:["Python", "Jupyter Notebooks", "Seaborn","Numpy", "Pandas", "Abaqus"]
     },
+    {
+      title:"Collaborator in entrepreneurship",
+      company:"CUCHUCAMBIAZO",
+      description:[
+        "Extract data from an Instagram API.",
+        "Export data to Excel and PostgreSQL Database.",
+        "Develop a software with a graphical interface so that the client is able to extract and visualize the information",
+        "Collaborate with the client to understand and solve problems"
+
+      ],
+      period:"08/2021 - 08/2022",
+      skills:["Python", "PostgreSQL","Numpy", "Pandas"]
+  },
 
 ]
 
