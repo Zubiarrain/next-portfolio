@@ -57,10 +57,14 @@ export default function ContactPage() {
         await sendEmail(formData);
         await deleteFormData(formData.id!);
       }
+      window.removeEventListener('online', handleOnline);
     };
 
-    window.addEventListener('online', handleOnline);
-    return () => window.removeEventListener('online', handleOnline);
+    if (navigator.onLine) {
+      handleOnline();
+    }
+
+    //window.addEventListener('online', handleOnline);
   }, []);
 
   return (
