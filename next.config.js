@@ -6,11 +6,11 @@ const withPWA = require('next-pwa')({
       urlPattern: /^https?.*/,
       handler: 'NetworkFirst',
       options: {
-        cacheName: 'others-cache',
-        networkTimeoutSeconds: 10,
+        cacheName: 'https-calls',
+        networkTimeoutSeconds: 15,
         expiration: {
-          maxEntries: 200,
-          maxAgeSeconds: 30 * 24 * 60 * 60, // Cache por 30 días
+          maxEntries: 150,
+          maxAgeSeconds: 30 * 24 * 60 * 60, // 1 month
         },
         cacheableResponse: {
           statuses: [0, 200],
@@ -18,14 +18,10 @@ const withPWA = require('next-pwa')({
       },
     },
     {
-      urlPattern: /^\/_next\/image\?url=.+/,
-      handler: 'CacheFirst',
+      urlPattern: /\.(?:png|jpg|jpeg|svg)$/, // Patrón para coincidir con archivos de imágenes
+      handler: 'CacheFirst', // Usa el cache primero
       options: {
         cacheName: 'images-cache',
-        expiration: {
-          maxEntries: 200,
-          maxAgeSeconds: 30 * 24 * 60 * 60, // Cache por 30 días
-        },
         cacheableResponse: {
           statuses: [0, 200],
         },
