@@ -1,8 +1,9 @@
 "use client";
 import { motion } from "framer-motion";
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, useRef, useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
 import { MotionPage } from "@/components/MotionPage";
+import { addFormData, getAllFormData, deleteFormData } from "@/lib/indexedDB";
 
 export default function ContactPage() {
   const [success, setSuccess] = useState(false);
@@ -11,28 +12,60 @@ export default function ContactPage() {
 
   const form = useRef<HTMLFormElement | null>(null);
 
-  const sendEmail = (e:FormEvent<HTMLFormElement>) => {
+  const sendEmail = async (data: { user_email: string; user_message: string }) => {
+    try {
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_SERVICE_ID || "",
+        process.env.NEXT_PUBLIC_TEMPLATE_ID || "",
+        data,
+        process.env.NEXT_PUBLIC_PUBLIC_KEY || ""
+      );
+      setSuccess(true);
+    } catch {
+      setError(true);
+    }
+  };
+
+  const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(false);
     setSuccess(false);
 
-    emailjs
-      .sendForm(
-        process.env.NEXT_PUBLIC_SERVICE_ID || "",
-        process.env.NEXT_PUBLIC_TEMPLATE_ID || "",
-        form.current || "",
-        process.env.NEXT_PUBLIC_PUBLIC_KEY || ""
-      )
-      .then(
-        () => {
-          setSuccess(true);
-          form && form.current && form.current.reset();
-        },
-        () => {
-          setError(true);
-        }
-      );
+    const formData = {
+      user_email: form.current?.user_email.value,
+      user_message: form.current?.user_message.value,
+    };
+
+    if (navigator.onLine) { // Verificar si NO hay conexión en línea
+      await addFormData(formData);
+      alert('No hay conexión a Internet. Los datos se guardarán y se enviarán cuando haya conexión.');
+      return;
+    }
+  
+    try {
+      await sendEmail(formData);
+      form.current?.reset();
+    } catch {
+      setError(true);
+    }
   };
+
+  useEffect(() => {
+    const handleOnline = async () => {
+      const formDataList = await getAllFormData();
+      for (const formData of formDataList) {
+        await sendEmail(formData);
+        await deleteFormData(formData.id!);
+      }
+    };
+
+    if (navigator.onLine) {
+      handleOnline();
+    }
+
+    window.addEventListener('online', handleOnline);
+    return () => window.removeEventListener('online', handleOnline);
+  }, []);
 
   return (
     <MotionPage>
@@ -59,7 +92,7 @@ export default function ContactPage() {
         </div>
         {/* FORM CONTAINER */}
         <form
-          onSubmit={(sendEmail)}
+          onSubmit={handleFormSubmit}
           ref={form}
           className="h-2/3 lg:h-full lg:w-1/2 bg-gradient-to-b from-gray-100 to-violet-100  rounded-xl text-lg flex flex-col gap-6 justify-center p-14"
         >
@@ -93,4 +126,4 @@ export default function ContactPage() {
       </div>
     </MotionPage>
   );
-};
+}
