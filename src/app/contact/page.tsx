@@ -59,10 +59,6 @@ export default function ContactPage() {
       }
     };
 
-    if (navigator.onLine) {
-      handleOnline();
-    }
-
     window.addEventListener('online', handleOnline);
     return () => window.removeEventListener('online', handleOnline);
   }, []);
