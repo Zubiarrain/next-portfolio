@@ -36,7 +36,7 @@ export default function ContactPage() {
       user_message: form.current?.user_message.value,
     };
 
-    if (navigator.onLine) { // Verificar si NO hay conexión en línea
+    if (!navigator.onLine) { // Verificar si NO hay conexión en línea
       await addFormData(formData);
       alert('No hay conexión a Internet. Los datos se guardarán y se enviarán cuando haya conexión.');
       return;
