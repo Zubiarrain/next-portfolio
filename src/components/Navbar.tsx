@@ -2,10 +2,9 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React from 'react'
 import { LinkUrl } from '@/definitions/LinkUrl'
 import NavLink from './NavLink'
-import {motion} from "framer-motion"
 
 const links: LinkUrl[] = [
   {url:"/", title:"Home"},
@@ -38,12 +37,12 @@ const Navbar = () => {
 
       {/* SOCIAL */}
       <div className='hidden md:flex gap-4  justify-end'>
-        <Link href="https://github.com/Zubiarrain">
+        <a href="https://github.com/Zubiarrain" target='_blank'>
           <Image src="/github.png" width={24} height={24} alt='github icon'/>
-        </Link>
-        <Link href="hhttps://www.linkedin.com/in/nahuel-zubiarrain/?locale=en_US">
+        </a>
+        <a href="https://www.linkedin.com/in/nahuel-zubiarrain/?locale=en_US" target='_blank'>
           <Image src="/linkedin.png" width={24} height={24} alt='linkedin icon'/>
-        </Link>
+        </a>
       </div>
       </div>
 
